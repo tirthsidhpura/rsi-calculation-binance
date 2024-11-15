@@ -22,8 +22,8 @@ Make sure to update your MySQL connection settings in the code if necessary.
 Clone this repository and navigate into the project directory:
 
 ```bash
-git clone <your-repo-url>
-cd <your-project-directory>
+git clone https://github.com/tirthsidhpura/rsi-calculation-binance.git
+
 ```
 
 Install the necessary dependencies:
@@ -81,7 +81,6 @@ const ws = new WebSocket('ws://localhost:3000');
 ws.on('open', () => {
     console.log('Connected to WebSocket server.');
     // Example subscription for a pair
-    ws.send(JSON.stringify({ type: 'subscribe', pair: 'BTC/USDT', indicator: 'RSI' }));
 });
 
 ws.on('message', (data) => {
@@ -109,4 +108,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For any queries, feel free to reach out:
 
 - **Email**: sidhpuratirth5126@gmail.com
-- **Website**: [Your Website](https://yourwebsite.com)
