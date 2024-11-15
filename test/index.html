@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Example</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Data Table</h1>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Pair</th>
+        <th>RSI Value</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Connect to WebSocket
+    const socket = new WebSocket('ws://localhost:8080'); // Replace with your WebSocket URL
+
+    // Listen for WebSocket connection open
+    socket.onopen = () => {
+      console.log('WebSocket connection established.');
+    };
+
+    // Listen for messages from WebSocket
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data); // Assuming data is in JSON format
+      const pair = data[0].pair;
+      const rsiValue = data[0].rsi;
+      updateDataTable(pair, rsiValue);
+    };
+
+    // Update or append data to the table
+    function updateDataTable(pair, rsiValue) {
+      const dataTable = document.getElementById('dataTable');
+      const tableBody = dataTable.getElementsByTagName('tbody')[0];
+      const existingRow = tableBody.querySelector(`tr[data-pair="${pair}"]`);
+
+      if (existingRow) {
+        // Pair already exists, update RSI value
+        existingRow.cells[1].textContent = +rsiValue.toFixed(4);
+      } else {
+        // Pair does not exist, append new row
+        const newRow = document.createElement('tr');
+        newRow.setAttribute('data-pair', pair);
+
+        const pairCell = document.createElement('td');
+        pairCell.textContent = pair;
+        newRow.appendChild(pairCell);
+
+        const rsiCell = document.createElement('td');
+        rsiCell.textContent = rsiValue;
+        newRow.appendChild(rsiCell);
+
+        tableBody.appendChild(newRow);
+      }
+    }
+  </script>
+</body>
+</html>
